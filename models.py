@@ -6,7 +6,7 @@ from datetime import datetime
 class FollowUpQuestion(BaseModel):
     follow_up_question_id: int
     condition_operator: str
-    condition_right_operand: str
+    condition_second_operand: str
 
 
 class Answer(BaseModel):
