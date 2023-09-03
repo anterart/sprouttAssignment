@@ -23,4 +23,4 @@ The `utils` directory contain helper classes and methods:
 5. `models.py` - holds definition of app business entities
 
 `main.py `- the main module of the app (the server is awakened through this module)
-`tests.py` - API tests
+`tests.py` - API tests, in order to run the tests, navigate to the project root folder and run `pytest tests.py`

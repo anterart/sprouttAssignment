@@ -5,6 +5,7 @@ from utils.enums import YesNoQuestion
 from typing import List, Dict
 from db.data_access import get_stored_answers
 from utils.consts import SAVE_ANSWERS_ENDPOINT, GET_QUESTIONNAIRE_ENDPOINT
+from db import data
 
 client = TestClient(app)
 
@@ -28,6 +29,10 @@ def get_new_answers() -> List[Answer]:
         Answer(question_id=9, value='programmer')
     ]
     return new_answers
+
+
+def empty_historical_answers():
+    data.historical_answers = {}
 
 
 def get_question_id_to_answer(answers: List[Answer]) -> Dict[int, Answer]:
@@ -143,6 +148,7 @@ def test_answers_storing():
     """
     Check if all submitted answers are stored
     """
+    empty_historical_answers()
     new_answers = get_new_answers()
     customer_id = 2
 
