@@ -3,9 +3,8 @@ from main import app
 from utils.models import Answer, Questionnaire
 from utils.enums import YesNoQuestion
 from typing import List, Dict
-from db.data_access import get_stored_answers
+from db.data_access import get_stored_answers_of_customer
 from utils.consts import SAVE_ANSWERS_ENDPOINT, GET_QUESTIONNAIRE_ENDPOINT
-from db import data
 
 client = TestClient(app)
 
@@ -41,10 +40,6 @@ def get_new_answers2() -> List[Answer]:
         Answer(question_id=9, value="Au! Au! Au!"),
     ]
     return new_answers
-
-
-def empty_historical_answers():
-    data.historical_answers = {}
 
 
 def get_question_id_to_answer(answers: List[Answer]) -> Dict[int, Answer]:
@@ -164,18 +159,17 @@ def test_answers_storing():
     """
     Check if all submitted answers are stored
     """
-    empty_historical_answers()
     new_answers = get_new_answers()
-    customer_id = 2
+    customer_id = 3
 
-    stored_answers = get_stored_answers()
+    stored_answers = get_stored_answers_of_customer(customer_id)
     assert len(stored_answers) == 0
 
     response = client.post(f'{SAVE_ANSWERS_ENDPOINT}/{customer_id}',
                            json=[answer.model_dump() for answer in new_answers])
     assert response.status_code == 200
 
-    stored_answers = get_stored_answers()
+    stored_answers = get_stored_answers_of_customer(customer_id)
     assert len(stored_answers) == len(new_answers)
 
     answers_dict = get_question_id_to_answer(new_answers)

@@ -1,5 +1,6 @@
-from utils.models import (Question, FollowUpQuestion, Customer, Answer)
+from utils.models import (Question, FollowUpQuestion, Customer, HistoricalAnswer)
 from utils.enums import YesNoQuestion, QuestionType, FollowUpConditionOperator
+from typing import Dict
 
 questions = {0: Question(question_id=0,
                          text='At what age do you plan to retire?',
@@ -74,7 +75,7 @@ customers = {0: Customer(customer_id=0,
                          first_name='Leonidas',
                          last_name='I',
                          email='king@sparta.gr',
-                         phone='123456',),
+                         phone='123456', ),
              1: Customer(customer_id=1,
                          first_name='Arty',
                          last_name='Abramovich',
@@ -84,8 +85,12 @@ customers = {0: Customer(customer_id=0,
                          first_name='test',
                          last_name='test',
                          email='test@gmail.com',
-                         phone='123456')
+                         phone='123456'),
+             3: Customer(customer_id=3,
+                         first_name='test3',
+                         last_name='test3',
+                         email='test3@gmail.com',
+                         phone='1233456'),
              }
 
-
-historical_answers = {}
+historical_answers: Dict[int, HistoricalAnswer] = {}

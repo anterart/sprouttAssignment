@@ -25,5 +25,9 @@ def update_customer_last_answers(customer_id: int, answers: List[Answer]):
         data.customers[customer_id].last_answers[answer.question_id] = answer
 
 
-def get_stored_answers() -> Dict[int, HistoricalAnswer]:
-    return data.historical_answers
+def get_stored_answers_of_customer(customer_id: int) -> Dict[int, HistoricalAnswer]:
+    customer_stored_answers: Dict[int, HistoricalAnswer] = {}
+    for answer_id, answer in data.historical_answers.items():
+        if answer.customer_id == customer_id:
+            customer_stored_answers[answer_id] = answer
+    return customer_stored_answers
