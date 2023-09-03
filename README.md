@@ -22,5 +22,5 @@ The `utils` directory contain helper classes and methods:
 4. `exceptions.py` - holds various exceptions
 5. `models.py` - holds definition of app business entities
 
-main.py - the main module of the app (the server is awakened through this module)
-tests.py - API tests
+`main.py `- the main module of the app (the server is awakened through this module)
+`tests.py` - API tests
