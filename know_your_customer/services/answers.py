@@ -12,7 +12,7 @@ def insert_customer_answers(customer_id: int, answers: List[Answer]):
     if customer is None:
         raise ItemNotFoundError(f'There is no customer with customer_id {customer_id} in db')
 
-    historical_answers = []
+    historical_answers: List[HistoricalAnswer] = []
     for answer in answers:
         validate_answer(answer, questions)
         historical_answers.append(HistoricalAnswer(question_id=answer.question_id, customer_id=customer_id,

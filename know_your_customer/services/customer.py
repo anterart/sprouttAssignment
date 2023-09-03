@@ -1,5 +1,5 @@
 from models import Question, DropdownData, OutQuestion, Questionnaire
-from typing import List
+from typing import Dict
 from enums import QuestionType
 from exceptions import ItemNotFoundError
 from db.data_access import get_customer, get_questions
@@ -25,15 +25,15 @@ def get_questionnaire_obj(customer_id: int) -> Questionnaire:
         raise ItemNotFoundError
 
     last_answers = customer.last_answers
-    out_questions: List[OutQuestion] = []
+    out_questions: Dict[int, OutQuestion] = {}
     questions = get_questions()
 
     for question_id, question in questions.items():
         if question_id in last_answers:
             answer = last_answers[question_id]
-            out_questions.append(build_out_question(question, answer.value))
+            out_questions[question_id] = build_out_question(question, answer.value)
         else:
-            out_questions.append(OutQuestion(**question.model_dump()))
+            out_questions[question_id] = OutQuestion(**question.model_dump())
 
     questionnaire = Questionnaire(customer=customer, questions=out_questions)
     return questionnaire

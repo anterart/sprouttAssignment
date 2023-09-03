@@ -50,4 +50,4 @@ class Customer(BaseModel):
 
 class Questionnaire(BaseModel):
     customer: Customer
-    questions: List[OutQuestion]
+    questions: Dict[int, OutQuestion]
