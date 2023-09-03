@@ -5,12 +5,13 @@ from know_your_customer.services.answers import insert_customer_answers
 from typing import List
 from models import Answer
 from exceptions import ValueDoesntFitToQuestionTypeError, ItemNotFoundError
+from consts import SAVE_ANSWERS_ENDPOINT, GET_QUESTIONNAIRE_ENDPOINT
 
 
 app = FastAPI()
 
 
-@app.get("/get_questionnaire")
+@app.get(GET_QUESTIONNAIRE_ENDPOINT)
 def get_questionnaire(customer_id: int):
     try:
         questionnaire = get_questionnaire_obj(customer_id)
@@ -19,7 +20,7 @@ def get_questionnaire(customer_id: int):
         raise HTTPException(status_code=404, detail=str(e))
 
 
-@app.post("/save_answers/{customer_id}")
+@app.post(f"{SAVE_ANSWERS_ENDPOINT}/{'{customer_id}'}")
 def save_answers(customer_id: int, answers: List[Answer]):
     try:
         insert_customer_answers(customer_id, answers)

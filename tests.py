@@ -4,6 +4,7 @@ from models import Answer, Questionnaire
 from enums import YesNoQuestion
 from typing import List, Dict
 from db.data_access import get_stored_answers
+from consts import SAVE_ANSWERS_ENDPOINT, GET_QUESTIONNAIRE_ENDPOINT
 
 client = TestClient(app)
 
@@ -42,7 +43,7 @@ def test_get_questionnaire1():
     Should return the questionnaire for customer_id = 0, this customer already completed the questionnaire so we expect
      to see his answers.
     """
-    response = client.get("/get_questionnaire", params={"customer_id": 0})
+    response = client.get(GET_QUESTIONNAIRE_ENDPOINT, params={"customer_id": 0})
     assert response.status_code == 200
     num_questions = 10
     questions = response.json()['questions']
@@ -55,7 +56,7 @@ def test_get_questionnaire2():
     Get questionnaire for customer that didnt answer any questions yet. We will expect that all the answers values will
      be None
     """
-    response = client.get("/get_questionnaire", params={"customer_id": 1})
+    response = client.get(GET_QUESTIONNAIRE_ENDPOINT, params={"customer_id": 1})
     assert response.status_code == 200
     num_questions = 10
     questions = response.json()['questions']
@@ -66,24 +67,24 @@ def test_get_questionnaire2():
 
 
 def test_non_existing_get_questionnaire():
-    response = client.get("/get_questionnaire", params={"customer_id": 5})
+    response = client.get(GET_QUESTIONNAIRE_ENDPOINT, params={"customer_id": 5})
     assert response.status_code == 404
 
 
 def test_inserting_answers_persistence():
     new_answers = get_new_answers()
     customer_id = 2
-    response = client.get("/get_questionnaire", params={"customer_id": customer_id})
+    response = client.get(GET_QUESTIONNAIRE_ENDPOINT, params={"customer_id": customer_id})
     question_ids = [a.question_id for a in new_answers]
     actual = get_answers_values(question_ids, response.json())
     expected = [None] * len(new_answers)
     assert actual == expected
     assert response.status_code == 200
 
-    response = client.post(f'/save_answers/{customer_id}', json=[answer.model_dump() for answer in new_answers])
+    response = client.post(f'{SAVE_ANSWERS_ENDPOINT}/{customer_id}', json=[answer.model_dump() for answer in new_answers])
     assert response.status_code == 200
 
-    response = client.get("/get_questionnaire", params={"customer_id": customer_id})
+    response = client.get(GET_QUESTIONNAIRE_ENDPOINT, params={"customer_id": customer_id})
     expected = [new_answers[i].value for i in range(len(new_answers))]
     actual = get_answers_values(question_ids, response.json())
     assert actual == expected
@@ -98,7 +99,7 @@ def test_insert_answers_valid1():
         {'question_id': 0, 'value': 'a'},
     ]
     customer_id = 2
-    response = client.post(f'/save_answers/{customer_id}', json=new_answers)
+    response = client.post(f'{SAVE_ANSWERS_ENDPOINT}/{customer_id}', json=new_answers)
     assert response.status_code == 500
 
 
@@ -110,7 +111,7 @@ def test_insert_answers_valid2():
         {'question_id': 1, 'value': 'a'},
     ]
     customer_id = 2
-    response = client.post(f'/save_answers/{customer_id}', json=new_answers)
+    response = client.post(f'{SAVE_ANSWERS_ENDPOINT}/{customer_id}', json=new_answers)
     assert response.status_code == 500
 
 
@@ -122,7 +123,7 @@ def test_insert_answers_valid3():
         {'question_id': 2, 'value': 'a'},
     ]
     customer_id = 2
-    response = client.post(f'/save_answers/{customer_id}', json=new_answers)
+    response = client.post(f'{SAVE_ANSWERS_ENDPOINT}/{customer_id}', json=new_answers)
     assert response.status_code == 500
 
 
@@ -134,7 +135,7 @@ def test_insert_answers_valid4():
         {'question_id': 200, 'value': 'a'},
     ]
     customer_id = 2
-    response = client.post(f'/save_answers/{customer_id}', json=new_answers)
+    response = client.post(f'{SAVE_ANSWERS_ENDPOINT}/{customer_id}', json=new_answers)
     assert response.status_code == 500
 
 
@@ -148,7 +149,8 @@ def test_answers_storing():
     stored_answers = get_stored_answers()
     assert len(stored_answers) == 0
 
-    response = client.post(f'/save_answers/{customer_id}', json=[answer.model_dump() for answer in new_answers])
+    response = client.post(f'{SAVE_ANSWERS_ENDPOINT}/{customer_id}',
+                           json=[answer.model_dump() for answer in new_answers])
     assert response.status_code == 200
 
     stored_answers = get_stored_answers()
