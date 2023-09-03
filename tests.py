@@ -31,6 +31,18 @@ def get_new_answers() -> List[Answer]:
     return new_answers
 
 
+def get_new_answers2() -> List[Answer]:
+    new_answers = [
+        Answer(question_id=0, value='50'),
+        Answer(question_id=1, value=YesNoQuestion.YES.value),
+        Answer(question_id=2, value='Term'),
+        Answer(question_id=3, value='77777'),
+        Answer(question_id=5, value=YesNoQuestion.NO.value),
+        Answer(question_id=9, value="Au! Au! Au!"),
+    ]
+    return new_answers
+
+
 def empty_historical_answers():
     data.historical_answers = {}
 
@@ -48,7 +60,10 @@ def test_get_questionnaire1():
     Should return the questionnaire for customer_id = 0, this customer already completed the questionnaire so we expect
      to see his answers.
     """
-    response = client.get(GET_QUESTIONNAIRE_ENDPOINT, params={"customer_id": 0})
+    customer_id = 0
+    new_answers = get_new_answers2()
+    client.post(f'{SAVE_ANSWERS_ENDPOINT}/{customer_id}', json=[answer.model_dump() for answer in new_answers])
+    response = client.get(GET_QUESTIONNAIRE_ENDPOINT, params={"customer_id": customer_id})
     assert response.status_code == 200
     num_questions = 10
     questions = response.json()['questions']
@@ -86,7 +101,8 @@ def test_inserting_answers_persistence():
     assert actual == expected
     assert response.status_code == 200
 
-    response = client.post(f'{SAVE_ANSWERS_ENDPOINT}/{customer_id}', json=[answer.model_dump() for answer in new_answers])
+    response = client.post(f'{SAVE_ANSWERS_ENDPOINT}/{customer_id}',
+                           json=[answer.model_dump() for answer in new_answers])
     assert response.status_code == 200
 
     response = client.get(GET_QUESTIONNAIRE_ENDPOINT, params={"customer_id": customer_id})
