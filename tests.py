@@ -1,10 +1,10 @@
 from fastapi.testclient import TestClient
 from main import app
-from models import Answer, Questionnaire
-from enums import YesNoQuestion
+from utils.models import Answer, Questionnaire
+from utils.enums import YesNoQuestion
 from typing import List, Dict
 from db.data_access import get_stored_answers
-from consts import SAVE_ANSWERS_ENDPOINT, GET_QUESTIONNAIRE_ENDPOINT
+from utils.consts import SAVE_ANSWERS_ENDPOINT, GET_QUESTIONNAIRE_ENDPOINT
 
 client = TestClient(app)
 

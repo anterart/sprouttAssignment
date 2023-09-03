@@ -1,5 +1,5 @@
-from models import (Question, FollowUpQuestion, Customer, Answer)
-from enums import YesNoQuestion, QuestionType, FollowUpConditionOperator
+from utils.models import (Question, FollowUpQuestion, Customer, Answer)
+from utils.enums import YesNoQuestion, QuestionType, FollowUpConditionOperator
 
 questions = {0: Question(question_id=0,
                          text='At what age do you plan to retire?',

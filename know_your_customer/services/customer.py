@@ -1,7 +1,7 @@
-from models import Question, DropdownData, OutQuestion, Questionnaire
+from utils.models import Question, DropdownData, OutQuestion, Questionnaire
 from typing import Dict
-from enums import QuestionType
-from exceptions import ItemNotFoundError
+from utils.enums import QuestionType
+from utils.exceptions import ItemNotFoundError
 from db.data_access import get_customer, get_questions
 
 

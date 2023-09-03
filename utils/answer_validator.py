@@ -1,5 +1,5 @@
-from enums import QuestionType, YesNoQuestion
-from exceptions import ItemNotFoundError, ValueDoesntFitToQuestionTypeError
+from utils.enums import QuestionType, YesNoQuestion
+from utils.exceptions import ItemNotFoundError, ValueDoesntFitToQuestionTypeError
 
 
 def validate_answer(answer, questions):

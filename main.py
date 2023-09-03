@@ -3,9 +3,9 @@ from fastapi.responses import JSONResponse
 from know_your_customer.services.customer import get_questionnaire_obj
 from know_your_customer.services.answers import insert_customer_answers
 from typing import List
-from models import Answer
-from exceptions import ValueDoesntFitToQuestionTypeError, ItemNotFoundError
-from consts import SAVE_ANSWERS_ENDPOINT, GET_QUESTIONNAIRE_ENDPOINT
+from utils.models import Answer
+from utils.exceptions import ValueDoesntFitToQuestionTypeError, ItemNotFoundError
+from utils.consts import SAVE_ANSWERS_ENDPOINT, GET_QUESTIONNAIRE_ENDPOINT
 
 
 app = FastAPI()

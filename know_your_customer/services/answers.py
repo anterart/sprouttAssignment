@@ -1,8 +1,8 @@
 from typing import List
-from models import Answer, HistoricalAnswer
-from exceptions import ItemNotFoundError
+from utils.models import Answer, HistoricalAnswer
+from utils.exceptions import ItemNotFoundError
 from db.data_access import get_questions, insert_answer, update_customer_last_answers, get_customer
-from answer_validator import validate_answer
+from utils.answer_validator import validate_answer
 
 
 def insert_customer_answers(customer_id: int, answers: List[Answer]):

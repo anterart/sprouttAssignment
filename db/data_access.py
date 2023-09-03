@@ -1,5 +1,5 @@
 from db import data
-from models import Customer, Question, HistoricalAnswer, Answer
+from utils.models import Customer, Question, HistoricalAnswer, Answer
 from typing import Dict, List
 
 
