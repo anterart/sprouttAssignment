@@ -1,7 +1,7 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import JSONResponse
-from know_your_customer.services.customer import get_questionnaire_obj
-from know_your_customer.services.answers import insert_customer_answers
+from services.customer import get_questionnaire_obj
+from services.answers import insert_customer_answers
 from typing import List
 from utils.models import Answer
 from utils.exceptions import ValueDoesntFitToQuestionTypeError, ItemNotFoundError
